@@ -15,11 +15,11 @@ public class TennisGame2 implements TennisGame
     }
     
     public String getScore(){
-        reviewForEqualPoints();
-        reviewForDeuce();
+        calculateLiteralScoreForTiedButNotDeuce();
+        calculateLiteralScoreForDeuce();
         getScoreAvoidingSpecialCases();
         reviewForAdvantagePoint();
-        reviewForWinner();
+        calculateLiteralScoreForWinner();
         return score;
     }
     
@@ -57,53 +57,42 @@ public class TennisGame2 implements TennisGame
     }
     
     
-    private String getEquivalence(int playerScore){
+    private String getLiteralPoints(int playerScore){
     	return scoreEquivalences[playerScore];
     }
     
-    private String getEquivalentScore(){
-    	return getEquivalence(player1Points)+"-"+getEquivalence(player2Points);
+    private String getLiteralScore(){
+    	return getLiteralPoints(player1Points)+"-"+getLiteralPoints(player2Points);
     }
     
-    private void reviewForEqualPoints(){
-    	 if (player1Points == player2Points && player1Points < 4)
-         {
-             score = getEquivalence(player1Points)+"-All";
-         }
+    private void calculateLiteralScoreForTiedButNotDeuce(){
+    	 if (isTied() && hasScoreLessOrEqualThanForty(player1Points))
+             score = getLiteralPoints(player1Points)+"-All";
     }
     
-    private void reviewForDeuce(){
+    private void calculateLiteralScoreForDeuce(){
     	if (isTied() && player1Points>=3)
             score = "Deuce";
     }
     
-    private void reviewForWinner(){
+    private void calculateLiteralScoreForWinner(){
     	if (player1Points>=4 && player2Points>=0 && (player1Points-player2Points)>=2)
-        {
             score = "Win for player1";
-        }
         if (player2Points>=4 && player1Points>=0 && (player2Points-player1Points)>=2)
-        {
             score = "Win for player2";
-        }
-    }
+     }
     
     private void reviewForAdvantagePoint(){
         if (player1Points > player2Points && player2Points >= 3)
-        {
             score = "Advantage player1";
-        }
-        
         if (player2Points > player1Points && player1Points >= 3)
-        {
             score = "Advantage player2";
-        }
     }
     
     private void getScoreAvoidingSpecialCases(){
     	if (!isTied() && hasScoreLessOrEqualThanForty(player1Points) && hasScoreLessOrEqualThanForty(player2Points) )
     	{
-            score=getEquivalentScore();
+            score=getLiteralScore();
     	}
     }
     
