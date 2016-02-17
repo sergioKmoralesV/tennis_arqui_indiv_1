@@ -18,13 +18,12 @@ public class TennisGame2 implements TennisGame
         calculateLiteralScoreForTiedButNotDeuce();
         calculateLiteralScoreForDeuce();
         getScoreAvoidingSpecialCases();
-        reviewForAdvantagePoint();
+        calculateLiteralScoreForAdvantage();
         calculateLiteralScoreForWinner();
         return score;
     }
     
     public void setPlayer1Score(int number){
-        
         for (int i = 0; i < number; i++)
         {
             player1Scores();
@@ -33,7 +32,6 @@ public class TennisGame2 implements TennisGame
     }
     
     public void setPlayer2Score(int number){
-        
         for (int i = 0; i < number; i++)
         {
             player2Scores();
@@ -76,30 +74,31 @@ public class TennisGame2 implements TennisGame
     }
     
     private void calculateLiteralScoreForWinner(){
-    	if (player1Points>=4 && player2Points>=0 && (player1Points-player2Points)>=2)
+    	if (!hasScoreLessOrEqualThanForty(player1Points) && player2Points>=0 && (player1Points-player2Points)>=2)
             score = "Win for player1";
-        if (player2Points>=4 && player1Points>=0 && (player2Points-player1Points)>=2)
+        if (!hasScoreLessOrEqualThanForty(player2Points) && player1Points>=0 && (player2Points-player1Points)>=2)
             score = "Win for player2";
      }
     
-    private void reviewForAdvantagePoint(){
-        if (player1Points > player2Points && player2Points >= 3)
+    private void calculateLiteralScoreForAdvantage(){
+        if (player1Points > player2Points && hasScoreMoreOrEqualThanForty(player2Points))
             score = "Advantage player1";
-        if (player2Points > player1Points && player1Points >= 3)
+        if (player2Points > player1Points && hasScoreMoreOrEqualThanForty(player1Points))
             score = "Advantage player2";
     }
     
     private void getScoreAvoidingSpecialCases(){
     	if (!isTied() && hasScoreLessOrEqualThanForty(player1Points) && hasScoreLessOrEqualThanForty(player2Points) )
-    	{
-            score=getLiteralScore();
-    	}
+    	    score=getLiteralScore();
     }
     
-    private boolean hasScoreLessOrEqualThanForty(int playerScore){
-    	return playerScore<4;
+   
+    private boolean hasScoreMoreOrEqualThanForty(int playerPoints){
+    	return playerPoints>=3;
     }
-
+    private boolean hasScoreLessOrEqualThanForty(int playerPoints){
+    	return playerPoints<=3;
+    }
     private boolean isTied(){
     	return player1Points == player2Points;
     }
