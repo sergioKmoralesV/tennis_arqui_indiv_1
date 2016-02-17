@@ -3,7 +3,7 @@ public class TennisGame2 implements TennisGame
 {
     public int P1point = 0;
     public int P2point = 0;
-    
+    public String score = "";
     public String P1res = "";
     public String P2res = "";
     private String player1Name;
@@ -21,18 +21,14 @@ public class TennisGame2 implements TennisGame
     public String getEquivalentScore(){
     	return getEquivalence(P1point)+"-"+getEquivalence(P2point);
     }
+    public void reviewForEqualPoints(){
+    	 if (P1point == P2point && P1point < 4)
+         {
+             score = getEquivalence(P1point)+"-All";
+         }
+    }
     public String getScore(){
-        String score = "";
-        if (P1point == P2point && P1point < 4)
-        {
-            if (P1point==0)
-                score = "Love";
-            if (P1point==1)
-                score = "Fifteen";
-            if (P1point==2)
-                score = "Thirty";
-            score += "-All";
-        }
+        reviewForEqualPoints();
         if (P1point==P2point && P1point>=3)
             score = "Deuce";
         
