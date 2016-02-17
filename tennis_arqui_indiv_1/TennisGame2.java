@@ -74,9 +74,9 @@ public class TennisGame2 implements TennisGame
     }
     
     private void calculateLiteralScoreForWinner(){
-    	if (!hasScoreLessOrEqualThanForty(player1Points) && player2Points>=0 && (player1Points-player2Points)>=2)
+    	if (!hasScoreLessOrEqualThanForty(player1Points) &&  hasDifferenceOfTwoOrMore(player1Points,player2Points))
             score = "Win for player1";
-        if (!hasScoreLessOrEqualThanForty(player2Points) && player1Points>=0 && (player2Points-player1Points)>=2)
+        if (!hasScoreLessOrEqualThanForty(player2Points) && hasDifferenceOfTwoOrMore(player2Points,player1Points))
             score = "Win for player2";
      }
     
@@ -92,7 +92,10 @@ public class TennisGame2 implements TennisGame
     	    score=getLiteralScore();
     }
     
-   
+    private boolean hasDifferenceOfTwoOrMore(int highestPoints, int lowestPoints){
+    	return (highestPoints-lowestPoints)>=2;
+    }
+    
     private boolean hasScoreMoreOrEqualThanForty(int playerPoints){
     	return playerPoints>=3;
     }
